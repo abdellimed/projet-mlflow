@@ -12,3 +12,4 @@ dependencies:
     - shap>=0.39.0
     - matplotlib>=3.4.1
     - boto3==1.17.19
+    - bentoml
