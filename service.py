@@ -3,14 +3,14 @@ import numpy as np
 import bentoml
 from bentoml.io import NumpyNdarray
 
-lgb_iris_runner = bentoml.mlflow.get("lgb_iris:latest").to_runner()
+model_runner = bentoml.mlflow.get("projet_test:latest").to_runner()
 
-svc = bentoml.Service("lgb_iris_service", runners=[lgb_iris_runner])
+svc = bentoml.Service("projet_test_service", runners=[model_runner])
 
 input_spec = NumpyNdarray(
-    dtype="float64",
+    dtype="int",
     enforce_dtype=True,
-    shape=(-1, 4),
+    shape=(-1, 6),
     enforce_shape=True,
 )
 
