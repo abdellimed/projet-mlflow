@@ -1,7 +1,7 @@
 import logging
 import sys
 import warnings
-
+import bentoml
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
@@ -63,6 +63,11 @@ def run_workflow(tracking_server_url: str, mlflow_experiment_name: str, mlflow_r
         mlflow.log_metric("model_accuracy", model_accuracy)
         # log the model
         mlflow.sklearn.log_model(rf_clf, "model")
+        model_uri = mlflow.get_artifact_uri("model")
+        bento_model = bentoml.mlflow.import_model(
+            "projet_test", model_uri, signatures={"predict": {"batchable": True}}
+        )
+        print("Model imported to BentoML: %s" % bento_model)
 
 
 def prepare_data(data_url: str):
