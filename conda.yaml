@@ -1,8 +1,8 @@
-name: pokemon-legendary-estimator
+name: model
 channels:
   - defaults
 dependencies:
-  - python=3.8
+  - python=3.9
   - pip
   - pip:
     - scikit-learn==0.24.1
@@ -13,3 +13,6 @@ dependencies:
     - matplotlib>=3.4.1
     - boto3==1.17.19
     - bentoml
+    - gensim
+    - pydantic
+    - nltk
