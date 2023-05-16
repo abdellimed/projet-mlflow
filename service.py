@@ -22,6 +22,6 @@ class Features(BaseModel):
       #  extra = "forbid"
 input_spec = JSON(pydantic_model=Features)
 @svc.api(input=input_spec, output=JSON())
-async def predict(input_text: Features):
+def predict(input_text: Features):
     input_df = pd.DataFrame([input_text.dict()])
-    return {'res':runner.predict.async_run(input_df)[0]}
+    return {'res':runner.predict.run(input_df)[0]}
