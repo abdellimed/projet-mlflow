@@ -18,6 +18,8 @@ import nltk
 nltk.download('omw-1.4')
 nltk.download('punkt')
 nltk.download('stopwords')
+nltk.download('wordnet')
+
 
 def load_train_test_data(data_url:str):
     import os
