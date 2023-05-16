@@ -17,6 +17,7 @@ from sklearn.model_selection import train_test_split
 import nltk
 nltk.download('omw-1.4')
 nltk.download('punkt')
+nltk.download('stopwords')
 
 def load_train_test_data(data_url:str):
     import os
