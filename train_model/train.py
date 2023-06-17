@@ -183,10 +183,7 @@ def run_workflow(tracking_server_url: str, mlflow_experiment_name: str, mlflow_r
 
         print('depedence de model à vérifier                 :',mlflow.pyfunc.get_model_dependencies(model_uri))
         print('model uri :',model_uri)
-       ''' bentoml.mlflow.import_model(
-            "comment-classifier",
-            model_uri,
-            signatures={"predict": {"batchable": True}})'''
+       
      #   mlflow.sklearn.log_model(rf_clf, "model")
 def main():
     warnings.filterwarnings("ignore")
