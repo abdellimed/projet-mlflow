@@ -165,7 +165,7 @@ def run_workflow(tracking_server_url: str, mlflow_experiment_name: str, mlflow_r
         # step3: Track the model
         print("accuracy: %f" % model_accuracy)
         # log the hyper-parameter to mlflow tracking server
-        mlflow.log_param("data_url", data_url)
+       # mlflow.log_param("data_url", data_url)
         #mlflow.log_param("n_estimator", n_estimator)
       # mlflow.log_param("max_depth", max_depth)
       # mlflow.log_param("min_samples_split", min_samples_split)
