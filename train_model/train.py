@@ -167,13 +167,14 @@ def run_workflow(tracking_server_url: str, mlflow_experiment_name: str, mlflow_r
         # log the hyper-parameter to mlflow tracking server
        # mlflow.log_param("data_url", data_url)
         #mlflow.log_param("n_estimator", n_estimator)
-       mlflow.log_param("max_depth", max_depth)
-       mlflow.log_param("max_feature", max_feat)
+      
       # mlflow.log_param("min_samples_split", min_samples_split)
         # log shap feature explanation extension. This will generate a graph of feature importance of the model
         # mlflow.shap.log_explanation(rf_clf.predict, test_X.sample(70))
         # log the metric
         mlflow.log_metric("model_accuracy", model_accuracy)
+        mlflow.log_param("max_depth", max_depth)
+        mlflow.log_param("max_feature", max_feat)
         # log the model
         extra_pip_requirements = ["nltk", "numpy"]
         mlflow.sklearn.log_model(
