@@ -31,7 +31,7 @@ def load_train_test_data(data_url:str):
     return train_test_split(X, y, test_size=0.2)
 
 
-def create_model(**kwargs):
+def create_model(max_f,max_depth):
     from sklearn.base import BaseEstimator
     from sklearn.neighbors import KNeighborsClassifier
     from sklearn.pipeline import Pipeline
@@ -133,13 +133,13 @@ def create_model(**kwargs):
 
     return Pipeline([
         ('preprocessing', TextPreprocessor()),
-        ('tfid', TfidfVectorizer(ngram_range=(1, 3),max_features=100)),
-        ('RandomForest', RandomForestClassifier())
+        ('tfid', TfidfVectorizer(ngram_range=(1, 3),max_features=max_f),
+        ('RandomForest', RandomForestClassifier(max_depth=max_depth))
     ])
 
 
 
-def run_workflow(tracking_server_url: str, mlflow_experiment_name: str, mlflow_run_name: str, data_url: str):
+def run_workflow(tracking_server_url: str, mlflow_experiment_name: str, mlflow_run_name: str, data_url: str,max_feat:int,max_depth:int):
     # Step1: Prepare data
     train_X, test_X, train_y, test_y = load_train_test_data(data_url)
    
@@ -152,7 +152,7 @@ def run_workflow(tracking_server_url: str, mlflow_experiment_name: str, mlflow_r
     # Step2: Train the model within the mlflow context
     with mlflow.start_run(run_name=mlflow_run_name) as run:
         # create a random forest classifier
-        model = create_model()
+        model = create_model(max_feat,max_depth)
 
     #
         # train the model with training_data
@@ -167,7 +167,8 @@ def run_workflow(tracking_server_url: str, mlflow_experiment_name: str, mlflow_r
         # log the hyper-parameter to mlflow tracking server
        # mlflow.log_param("data_url", data_url)
         #mlflow.log_param("n_estimator", n_estimator)
-      # mlflow.log_param("max_depth", max_depth)
+       mlflow.log_param("max_depth", max_depth)
+       mlflow.log_param("max_feature", max_feat)
       # mlflow.log_param("min_samples_split", min_samples_split)
         # log shap feature explanation extension. This will generate a graph of feature importance of the model
         # mlflow.shap.log_explanation(rf_clf.predict, test_X.sample(70))
@@ -193,16 +194,18 @@ def main():
     default_data_url = "https://minio.lab.sspcloud.fr/mabdelli/mlflow/exercice1.csv"
     default_experiment_name = "Projet_test"
     default_run_name = "default"
+    default_max_depth = 5
 
    # default_n_estimator = 10
-   # default_max_depth = 5
+    
    # default_samples_split = 2
 
     # Get experiment setting from cli
     remote_server_uri = str(sys.argv[1]) if len(sys.argv) > 1 else default_mlflow_server_url
     experiment_name = str(sys.argv[2]) if len(sys.argv) > 2 else default_experiment_name
     run_name = str(sys.argv[3]) if len(sys.argv) > 3 else default_run_name
-
+    max_features=int(sys.argv[5]) if len(sys.argv) > 5 else default_max_features
+    max_depth=int(sys.argv[6]) if len(sys.argv) > 6 else default_max_depth
     # Get data path
     data_url = str(sys.argv[4]) if len(
         sys.argv) > 4 else default_data_url
@@ -214,8 +217,7 @@ def main():
 
     # split data into training_data and test_data
 
-    run_workflow(remote_server_uri, experiment_name, run_name, data_url)
-
+    run_workflow(remote_server_uri, experiment_name, run_name, data_url,max_features,max_depth)
 
 if __name__ == "__main__":
     main()
