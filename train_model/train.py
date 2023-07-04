@@ -133,7 +133,7 @@ def create_model(max_f,max_depth):
 
     return Pipeline([
         ('preprocessing', TextPreprocessor()),
-        ('tfid', TfidfVectorizer(ngram_range=(1, 3),max_features=max_f),
+        ('tfid', TfidfVectorizer(ngram_range=(1, 3),max_features=max_f)),
         ('RandomForest', RandomForestClassifier(max_depth=max_depth))
     ])
 
