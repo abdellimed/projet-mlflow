@@ -158,7 +158,7 @@ def run_workflow(tracking_server_url: str, mlflow_experiment_name: str, mlflow_r
         # train the model with training_data
         #rf_clf.fit(train_X, train_y)
         model.fit(train_X, train_y)
-        model_accuracy=model.score(train_X, train_y)
+        model_accuracy=model.score(test_X, test_y)
         # predict testing data
         #predicts_val = rf_clf.predict(test_X)
         
